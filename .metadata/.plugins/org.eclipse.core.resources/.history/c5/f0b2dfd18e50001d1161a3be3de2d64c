@@ -1,0 +1,112 @@
+package files;
+import static io.restassured.RestAssured.*;
+
+import java.io.File;
+
+import io.restassured.RestAssured;
+import io.restassured.filter.session.SessionFilter;
+import io.restassured.response.ValidatableResponse;
+
+public class JiraTest {
+	public static void main(String[] args) {
+		//login();
+		//addCommentToExistingIssue();
+		//addAttachmentToIssue();
+		//getEntireIssue();
+		getCustomizedIssueInformation();
+	}
+	public static void login() {
+		SessionFilter session = new SessionFilter();
+		RestAssured.baseURI = "http://localhost:8083";
+		String response = given().header("Content-Type","application/json")
+		.body("{\r\n"
+				+ "\"username\":\"radhika.kulkarni1311\",\r\n"
+				+ "\"password\":\"Rvk@13111995\"\r\n"
+				+ "}\r\n"
+				+ "").log().all().filter(session)
+		.when().post("/rest/auth/1/session")
+		.then().extract().response().asString();
+		System.out.println(response);
+	}
+	public static void addCommentToExistingIssue() {
+		SessionFilter session = new SessionFilter();
+		RestAssured.baseURI = "http://localhost:8083";
+		String response = given().header("Content-Type","application/json")
+		.body("{\r\n"
+				+ "\"username\":\"radhika.kulkarni1311\",\r\n"
+				+ "\"password\":\"Rvk@13111995\"\r\n"
+				+ "}\r\n"
+				+ "").log().all().filter(session)
+		.when().post("/rest/auth/1/session")
+		.then().extract().response().asString();
+		System.out.println(response);
+		RestAssured.baseURI = "http://localhost:8083";
+		ValidatableResponse response1 = given().pathParam("id", "10305").log().all().header("Content-Type","application/json")
+		.body("{\r\n"
+				+ "    \"body\":\"This is my 1st comment\",\r\n"
+				+ "    \"visibility\": {\r\n"
+				+ "        \"type\":\"role\",\r\n"
+				+ "        \"value\":\"Administrators\"\r\n"
+				+ "    }\r\n"
+				+ "}").filter(session)
+		.when().post("/rest/api/2/issue/{id}/comment")
+		.then().assertThat().statusCode(201);
+		System.out.println(response1);
+	}
+	public static void addAttachmentToIssue() {
+		SessionFilter session = new SessionFilter();
+		RestAssured.baseURI = "http://localhost:8083";
+		String response = given().header("Content-Type","application/json")
+		.body("{\r\n"
+				+ "\"username\":\"radhika.kulkarni1311\",\r\n"
+				+ "\"password\":\"Rvk@13111995\"\r\n"
+				+ "}\r\n"
+				+ "").log().all().filter(session)
+		.when().post("/rest/auth/1/session")
+		.then().extract().response().asString();
+		System.out.println(response);
+		
+		given().header("X-Atlassian-Token","no-check").filter(session)
+		.pathParam("id", "10305")
+		.header("Content-Type","multipart/form-data").multiPart("file",new File("jira.txt"))
+		.when().post("rest/api/2/issue/{id}/attachments")
+		.then().log().all().assertThat().statusCode(200);
+	}
+	public static void getEntireIssue() {
+		SessionFilter session = new SessionFilter();
+		RestAssured.baseURI = "http://localhost:8083";
+		String response = given().header("Content-Type","application/json")
+		.body("{\r\n"
+				+ "\"username\":\"radhika.kulkarni1311\",\r\n"
+				+ "\"password\":\"Rvk@13111995\"\r\n"
+				+ "}\r\n"
+				+ "").log().all().filter(session)
+		.when().post("/rest/auth/1/session")
+		.then().extract().response().asString();
+		System.out.println(response);
+		
+		 String issueDetails = given().filter(session).pathParam("id", "10305").log().all()
+		.when().get("/rest/api/2/issue/{id}")
+		.then().log().all().extract().response().asString();
+		 System.out.println(issueDetails);
+	}
+	public static void getCustomizedIssueInformation() {
+		SessionFilter session = new SessionFilter();
+		RestAssured.baseURI = "http://localhost:8083";
+		String response = given().header("Content-Type","application/json")
+		.body("{\r\n"
+				+ "\"username\":\"radhika.kulkarni1311\",\r\n"
+				+ "\"password\":\"Rvk@13111995\"\r\n"
+				+ "}\r\n"
+				+ "").log().all().filter(session)
+		.when().post("/rest/auth/1/session")
+		.then().extract().response().asString();
+		System.out.println(response);
+		
+		 String issueDetails = given().filter(session).pathParam("id", "10305")
+				 .queryParam("fields", "comment")
+				 .when().get("/rest/api/2/issue/{id}")
+				 .then().log().all().extract().response().asString();
+		 		 System.out.println(issueDetails);
+	}
+}

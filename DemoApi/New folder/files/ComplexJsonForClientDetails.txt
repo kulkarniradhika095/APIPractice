@@ -1,0 +1,29 @@
+{
+  "Client-Details": {
+	"Client-Name": Radhika Kulkarni,
+    "purchaseAmount": 910,
+    "website": "https://rahulshettyacademy.com"
+  },
+  "Purchased-Items": [
+    {
+      "Product Type": "Coffee Table",
+      "price": 5499,
+      "quantity": 1
+    },
+    {
+      "Product Type": "Dining Table",
+      "price": 8999,
+      "quantity": 4
+    },
+    {
+      "Product Type": "Lounge Chair",
+      "price": 7899,
+      "quantity": 10
+    },
+    {
+      "Product Type": "Night Lamp",
+      "price": 999,
+      "quantity": 16
+    }
+  ]
+}

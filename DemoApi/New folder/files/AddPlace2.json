@@ -1,0 +1,15 @@
+{
+  "location": {
+    "lat": -11.383494,
+    "lng": 31.427362
+  },
+  "name": "Rahul Shetty",
+  "phone_number": "(+91) 4567891231",
+  "address": "239, Telangana-23",
+  "Product types": [
+    "Coffee Table",
+	"Dining Table"
+   ],
+  "website": "baseURI",
+  "language": "English-IN"
+}
